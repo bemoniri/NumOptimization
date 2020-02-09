@@ -1,0 +1,144 @@
+\documentclass{article}
+
+\usepackage{fancyhdr}
+\usepackage{extramarks}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{amsfonts}
+\usepackage{tikz}
+\usepackage[plain]{algorithm}
+\usepackage{algpseudocode}
+\usepackage{xepersian}
+ \usepackage{xcolor}
+ \usepackage{lscape}
+ \renewcommand{\refname}{\rl{{مراجع}\hfill}}
+\settextfont[Scale=1.2]{XB Niloofar}
+%\setlatintextfont{Serif}
+\setdigitfont[Scale=1.2]{Yas}
+\DefaultMathsDigits
+
+
+\usetikzlibrary{automata,positioning}
+
+%
+% Basic Document Settings
+%
+
+\topmargin=-0.35in
+\evensidemargin=0in
+\oddsidemargin=0in
+\textwidth=6.5in
+\textheight=9.0in
+\headsep=0.25in
+
+\linespread{1.1}
+
+\pagestyle{fancy}
+\lhead{بهراد منیری
+(۹۵۱۰۹۵۶۴)
+}
+\rhead{تمرین سری چهارم درس بهینه‌سازی عددی}
+\lfoot{\lastxmark}
+\cfoot{\thepage}
+
+\renewcommand\headrulewidth{0.4pt}
+\renewcommand\footrulewidth{0.4pt}
+
+\setlength\parindent{0pt}
+
+\title{جداسازی کور ترکیب‌های غیرخطی فرآیند‌های تصادفی}
+\author{
+	بهراد منیری\\
+	\texttt{bemoniri@ee.sharif.edu}
+	\vspace{0.5cm}\\
+	استاد راهنما:
+	دکتر مسعود بابائی‌زاده
+}
+\date{}
+
+\renewcommand{\part}[1]{\textbf{\large Part \Alph{partCounter}}\stepcounter{partCounter}\\}
+
+%
+% Various Helper Commands
+%
+
+% Useful for algorithms
+\newcommand{\alg}[1]{\textsc{\bfseries \footnotesize #1}}
+
+
+\newtheorem{den}{{\large\bf تعریف}}[section]
+\newtheorem{exa}{{\large\bf مثال}}[section]
+\newtheorem{lem}{{\large\bf لم}}[section]
+\newtheorem{pro}{{\large\bf گزاره}}[section]
+\newtheorem{cor}{{\large\bf نتیجه}}[section]
+\newtheorem{thm}{{\large\bf قضیه}}[section]
+\newtheorem{rem}{{\large\bf تذکر}}[section]
+\newtheorem{nnt}{{\large\bf توجه}}[section]
+\newtheorem{aaa}{{\large\bf}}[section]
+
+\begin{document}
+%\maketitle
+\begin{landscape}
+\section{توضیح مختصر}
+در این تمرین، پاسخ‌ها را با آقای امیرحسین افشارراد چک کردم. جواب‌های تا حد بسیار زیادی شبیه‌ به هم بود، مگر در تابع روزنبروک و در حالت استفاده از الگوریتم 
+\lr{SD}.
+در این تمرین، در تمام الگوریتم‌ها، لاین‌سرچ انجام می‌شود که 
+\lr{GSS}
+مربوط به این لاین‌سرچ‌ها، همگی در بازه‌ی 
+$[0, 100]$
+انجام می‌شود. تابع ارسالی توسط من، برای 
+\lr{GSS}
+در تمرین سری اول به صورت بازگشتی پیاده‌سازی شده بود. در این‌جا با پیاده‌سازی مجدد و غیربازگشتی آن تابع، جواب آن بخش نیز شبیه به جواب آقای افشارراد شد. حالت اول، حالتی است که از همان  
+\lr{GSS}
+تمرین اول استفاده کرده‌ام و حالت دوم، حالتی است که از 
+\lr{GSS}
+جدید استفاده کرده‌ام. دلیل این تفاوت هم اختلاف بسیار بسیار اندک در 
+\lr{GSS}
+است (از اردر 
+$10^{-14}$
+برای $\alpha$ در هر ایتریشن) که به دلیل حساسیت بسیار زیاد تابع روزنبروک، این مسئله بسیار شدید نشان داده‌شده است. در فایل زیپ‌ ارسالی، دو ابع اصلی این تمرین به صورت مجزا با نام های
+\lr{Newton\_GSS.m}
+و 
+\lr{SD\_GSS.m}
+آورده شده‌است.
+(توجه کنید که در فایل زیپ ارسالی دو فولدر 
+\lr{Method1}
+و
+\lr{Method2}
+نیز وجود دارند که کد‌های کامل هر حالت در آن یافت می‌شود و جواب‌های زیر را تولید می‌کند.)
+
+\section{حالت اول}
+% Please add the following required packages to your document preamble:
+% \usepackage[table,xcdraw]{xcolor}
+% If you use beamer only pass "xcolor=table" option, i.e. \documentclass[xcolor=table]{beamer}
+\begin{latin}
+\begin{table}[h!]
+	\begin{tabular}{|c|c|c|c|c|c|c|}
+		\hline
+		& \textbf{Final x}                                              & Final f    & \# Iter & \# Func Evals & \# Grad Evals & \# Hess. Evals \\ \hline
+		Powel Function  (SD)         & {[}1.2733, 1.6215{]}                                          & 0.0747     & 105     & 3781          & 105           & 0              \\ \hline
+		Rosenbrock Function (SD)     & {[}1.0000, 1.0000{]}                                          & 2.2542e-19 & 2       & 63            & 2             & 2              \\ \hline
+		Powel Function (Newton)      & {[}0.2302, -0.230, 0.1101, 0.1190{]}                          & 0.0054     & 181     & 6517          & 181           & 0              \\ \hline
+		Rosenbrock Function (Newton) & 10\textasciicircum{}-3{[}-0.0001, -0.0002, -0.8448, 0.8448{]} & 1.7404e-11 & 11      & 397           & 11            & 11             \\ \hline
+	\end{tabular}
+\end{table}
+\end{latin}
+
+\section{حالت دوم}
+% Please add the following required packages to your document preamble:
+% \usepackage[table,xcdraw]{xcolor}
+% If you use beamer only pass "xcolor=table" option, i.e. \documentclass[xcolor=table]{beamer}
+\begin{latin}
+\begin{table}[h!]
+	\begin{tabular}{|c|c|c|c|c|c|c|}
+		\hline
+		& \textbf{Final x}                                              & Final f    & \# Iter & \# Func Evals & \# Grad Evals & \# Hess. Evals \\ \hline
+		Powel Function  (SD)         & {[}1.0033, 1.0067{]}                                          & 1.1050e-05 & 184     & 12513         & 184           & 0              \\ \hline
+		Rosenbrock Function (SD)     & {[}1.0000, 1.0000{]}                                          & 2.2542e-19 & 2       & 117           & 2             & 2              \\ \hline
+		Powel Function (Newton)      & {[}0.2302, -0.230, 0.1101, 0.1190{]}                          & 0.0054     & 181     & 12309         & 181           & 0              \\ \hline
+		Rosenbrock Function (Newton) & 10\textasciicircum{}-3{[}-0.0001, -0.0002, -0.8448, 0.8448{]} & 1.7404e-11 & 11      & 794           & 11            & 11             \\ \hline
+	\end{tabular}
+\end{table}
+\end{latin}
+\end{landscape}
+\end{document}

@@ -1,0 +1,160 @@
+\documentclass{article}
+
+\usepackage{fancyhdr}
+\usepackage{extramarks}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{amsfonts}
+\usepackage{tikz}
+\usepackage[plain]{algorithm}
+\usepackage{algpseudocode}
+\usepackage{xepersian}
+ \usepackage{xcolor}
+ \usepackage{lscape}
+ \renewcommand{\refname}{\rl{{مراجع}\hfill}}
+\settextfont[Scale=1.2]{XB Niloofar}
+%\setlatintextfont{Serif}
+\setdigitfont[Scale=1.2]{Yas}
+\DefaultMathsDigits
+
+
+\usetikzlibrary{automata,positioning}
+
+%
+% Basic Document Settings
+%
+
+\topmargin=-0.35in
+\evensidemargin=0in
+\oddsidemargin=0in
+\textwidth=6.5in
+\textheight=9.0in
+\headsep=0.25in
+
+\linespread{1.1}
+
+\pagestyle{fancy}
+\lhead{بهراد منیری
+(۹۵۱۰۹۵۶۴)
+}
+\rhead{تمرین سری هفتم درس بهینه‌سازی عددی}
+
+
+\renewcommand\headrulewidth{0.4pt}
+
+\setlength\parindent{0pt}
+
+\title{جداسازی کور ترکیب‌های غیرخطی فرآیند‌های تصادفی}
+\author{
+	بهراد منیری\\
+	\texttt{bemoniri@ee.sharif.edu}
+	\vspace{0.5cm}\\
+	استاد راهنما:
+	دکتر مسعود بابائی‌زاده
+}
+\date{}
+
+\renewcommand{\part}[1]{\textbf{\large Part \Alph{partCounter}}\stepcounter{partCounter}\\}
+
+%
+% Various Helper Commands
+%
+
+% Useful for algorithms
+\newcommand{\alg}[1]{\textsc{\bfseries \footnotesize #1}}
+
+
+\newtheorem{den}{{\large\bf تعریف}}[section]
+\newtheorem{exa}{{\large\bf مثال}}[section]
+\newtheorem{lem}{{\large\bf لم}}[section]
+\newtheorem{pro}{{\large\bf گزاره}}[section]
+\newtheorem{cor}{{\large\bf نتیجه}}[section]
+\newtheorem{thm}{{\large\bf قضیه}}[section]
+\newtheorem{rem}{{\large\bf تذکر}}[section]
+\newtheorem{nnt}{{\large\bf توجه}}[section]
+\newtheorem{aaa}{{\large\bf}}[section]
+
+\begin{document}
+
+\begin{landscape}
+
+ \section{تکرار تمرین چهارم با شرایط ولف}
+
+در این تمرین، الگوریتم
+\lr{linesearch}
+بر مبنای شرایط قوی ولف پیاده‌سازی شده و تمرین شماره‌ی ۴ مجدداً با استفاده از این 
+\lr{linesearch}
+انجام می‌شود. دو روش 
+\lr{linesearch}
+استفاده از 
+\lr{GSS}
+و روش مبتنی بر شرایط قوی ولف، در جداول زیر مقایسه شده‌اند. این مقایسه برای دو تابع پاول و روزنبرک انجام شده است. مطابق تمرین شماره‌ی چهار، همواره
+\lr{stop\_tol}
+برابر
+$10^{-4}$
+در نظر گرفته‌ شده‌است. شرایط اولیه نیز مطابق تمرین چهارم است.
+ کمیت‌های مورد استفاده برای 
+\lr{linesearch}
+نیز به شرح زیر است:
+\begin{equation*}
+\begin{cases}
+c_1 = 10^{-4}\\
+c_2 = 0.1
+\end{cases}
+\end{equation*}
+
+
+در مقایسه‌های زیر، مشاهده می‌شود که عملکرد الگوریتم
+\lr{Wolfe}
+بسیار بهتر از الگوریتم
+\lr{GSS}
+بوده است. این امر، به وضوح در عملکرد الگوریتم 
+\lr{Steepest Descent}
+بر روی تابع روزنبروک قابل مشاهده است. در جالتی که از الگوریتم 
+\lr{GSS}
+استفاده می‌شد، جواب بسیار بسیار تابع پارامتر‌های
+\lr{linesearch}
+بود. این موضوع در استفاده از شرایط ولف، بسیار بهتر شده است و الگوریتم نسبت به این پارامتر‌ها، بسیار پایدار است. در سه آزمایش دیگر نیز، شرایط ولف، جواب بهتری به نسبت روش
+\lr{GSS}
+داده‌اند. متطابق الگوریتم مطرح شده در کلاس، در هر مرحله‌ از لاین‌سرچ، ابتدا 
+$\alpha = 1$
+چک شده‌است.
+\vspace{3cm}	
+
+\begin{latin}
+\begin{table}[h!]
+	\begin{tabular}{|c|c|c|c|c|c|c|c|}
+		\hline
+		
+		& Linesearch & \textbf{Final x}  & Final f    & \# Iter & \# Func Evals  &\# Grad Evals & \# Hess. Evals \\ \hline
+											
+		Rosenbrock Function  (SD)     & GSS    & {[}1.2733, 1.6215{]}                                          & 0.0747     & 105     & 3781          & 105           & 0              \\	
+			
+		Rosenbrock Function  (SD)     & Wolfe    & {[}1.3506 1.8255{]}                                          &      0.12311
+		& 3     & 127         & 54          & 0              \\	
+		
+		 \hline
+		 
+		Rosenbrock Function (ٔNewton) & GSS    & {[}1.0000, 1.0000{]}                                          & 2.2542e-19 & 2       & 48            & 34             & 2              \\ 
+		
+		Rosenbrock Function (ٔNewton)  & Wolfe   & {[}1.0000, 1.0000{]}                                          & 0.0000e-21 & 2       & 7            & 4             & 2              \\ 
+		
+		\hline
+		
+		Powell Function (SD)  & GSS    & {[}0.2302, -0.230, 0.1101, 0.1190{]}                          & 0.0054     & 181     & 6517          & 181           & 0              \\
+		
+		Powell Function (SD) & Wolfe      & {[}   0.2388, -0.0237, 0.1139,   0.1237{]}                          & 0.00624    & 213     & 13693          & 8051           & 0              \\	
+		 \hline
+		
+		Powell Function (Newton) & GSS & 10\textasciicircum{}-3{[}-0.0001, -0.0002, -0.8448, 0.8448{]} & 1.7404e-11 & 11      & 397           & 11            & 11             \\ 
+		
+		Powell Function (Newton) & Wolfe & {[}   0.0000,  -0.0000,  0.0011, 0.0011 {]} & 0.001083e-11 & 12      & 45           & 35            & 12             \\ 
+		
+		
+		\hline
+	\end{tabular}
+\end{table}
+\end{latin}
+
+\end{landscape}
+\end{document}
